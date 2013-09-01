@@ -59,10 +59,10 @@ public class SlideMenu extends ViewGroup {
 	public final static int MODE_SLIDE_WINDOW = 1;
 	public final static int MODE_SLIDE_CONTENT = 2;
 
-	public final static int STATE_CLOSE = 1 << 0; // 1
-	public final static int STATE_OPEN_LEFT = 1 << 1; // 2
-	public final static int STATE_OPEN_RIGHT = 1 << 2; // 4
-	public final static int STATE_DRAG = 1 << 3; // 8
+	public final static int STATE_CLOSE = 1 << 0;
+	public final static int STATE_OPEN_LEFT = 1 << 1;
+	public final static int STATE_OPEN_RIGHT = 1 << 2;
+	public final static int STATE_DRAG = 1 << 3;
 	public final static int STATE_SCROLL = 1 << 4;
 	public final static int STATE_OPEN_MASK = 6;
 
@@ -384,8 +384,8 @@ public class SlideMenu extends ViewGroup {
 	}
 
 	/**
-	 * Set the slide mode:<br/>
-	 * {@link #MODE_SLIDE_CONTENT} {@link #MODE_SLIDE_WINDOW}
+	 * Set the slide mode:<br/> {@link #MODE_SLIDE_CONTENT}
+	 * {@link #MODE_SLIDE_WINDOW}
 	 * 
 	 * @param slideMode
 	 */
@@ -1096,6 +1096,7 @@ public class SlideMenu extends ViewGroup {
 				break;
 			case ROLE_SECONDARY_MENU:
 			case ROLE_PRIMARY_MENU:
+				// add your custom layout rule here for menu
 				break;
 			default:
 				throw new IllegalArgumentException(

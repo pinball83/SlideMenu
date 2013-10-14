@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.aretha.slidemenu.SlideMenu;
@@ -31,12 +32,17 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 		android.widget.RadioGroup.OnCheckedChangeListener, OnClickListener,
 		OnItemSelectedListener {
 	private SlideMenu mSlideMenu;
+	private TextView mPrimaryShadowWidthLabel;
 	private SeekBar mPrimaryShadowWidth;
+	private TextView mSecondaryShadowWidthLabel;
 	private SeekBar mSecondaryShadowWidth;
 	private RadioGroup mSlideMode;
 	private ToggleButton mSlideLeft;
 	private ToggleButton mSlideRight;
 	private Spinner mInterpolator;
+	private ToggleButton mEdgeSlide;
+	private TextView mEdgeSlideWidthLabel;
+	private SeekBar mEdgeSlideWidth;
 
 	@Override
 	public void onContentChanged() {
@@ -46,12 +52,17 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 		setSlideRole(R.layout.layout_secondary_menu);
 		mSlideMenu = getSlideMenu();
 
+		mPrimaryShadowWidthLabel = (TextView) findViewById(R.id.primaryShadowWidthLabel);
 		mPrimaryShadowWidth = (SeekBar) findViewById(R.id.primaryShadowWidth);
+		mSecondaryShadowWidthLabel = (TextView) findViewById(R.id.secondaryShadowWidthLabel);
 		mSecondaryShadowWidth = (SeekBar) findViewById(R.id.secondaryShadowWidth);
 		mSlideMode = (RadioGroup) findViewById(R.id.slideMode);
 		mSlideLeft = (ToggleButton) findViewById(R.id.slideLeft);
 		mSlideRight = (ToggleButton) findViewById(R.id.slideRight);
 		mInterpolator = (Spinner) findViewById(R.id.interpolator);
+		mEdgeSlide = (ToggleButton) findViewById(R.id.edgeSlide);
+		mEdgeSlideWidthLabel = (TextView) findViewById(R.id.edgeSlideWidthLabel);
+		mEdgeSlideWidth = (SeekBar) findViewById(R.id.edgeSlideWidth);
 
 		mPrimaryShadowWidth.setOnSeekBarChangeListener(this);
 		mSecondaryShadowWidth.setOnSeekBarChangeListener(this);
@@ -59,6 +70,8 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 		mSlideLeft.setOnCheckedChangeListener(this);
 		mSlideRight.setOnCheckedChangeListener(this);
 		mInterpolator.setOnItemSelectedListener(this);
+		mEdgeSlide.setOnCheckedChangeListener(this);
+		mEdgeSlideWidth.setOnSeekBarChangeListener(this);
 
 		mInterpolator.setAdapter(ArrayAdapter.createFromResource(this,
 				R.array.interpolator, android.R.layout.simple_list_item_1));
@@ -68,9 +81,17 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		if (mPrimaryShadowWidth == seekBar) {
+			mPrimaryShadowWidthLabel.setText(getString(
+					R.string.primary_shadow_width, progress));
 			mSlideMenu.setPrimaryShadowWidth(progress);
 		} else if (mSecondaryShadowWidth == seekBar) {
+			mSecondaryShadowWidthLabel.setText(getString(
+					R.string.secondary_shadow_width, progress));
 			mSlideMenu.setSecondaryShadowWidth(progress);
+		} else if (mEdgeSlideWidth == seekBar) {
+			mEdgeSlideWidthLabel.setText(getString(R.string.edge_slide_width,
+					progress));
+			mSlideMenu.setEdgetSlideWidth(progress);
 		}
 	}
 
@@ -99,6 +120,9 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 			} else {
 				slideDirectionFlag &= ~SlideMenu.FLAG_DIRECTION_RIGHT;
 			}
+		} else if (mEdgeSlide == buttonView) {
+			mSlideMenu.setEdgeSlideEnable(isChecked);
+			return;
 		}
 		mSlideMenu.setSlideDirection(slideDirectionFlag);
 	}

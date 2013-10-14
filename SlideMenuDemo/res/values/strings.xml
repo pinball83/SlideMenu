@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">SlideMenuDemo</string>
-    <string name="primary_shadow_width">Primary Shadow Width</string>
-    <string name="secondary_shadow_width">Secondary Shadow Width</string>
+    <string name="primary_shadow_width">Primary Shadow Width: %1$d px</string>
+    <string name="secondary_shadow_width">Secondary Shadow Width: %1$d px</string>
     <string name="slide_left_enable">Slide Left Enable</string>
     <string name="slide_left_disable">Slide Left Disable</string>
     <string name="slide_right_enable">Slide Right Enable</string>
@@ -10,6 +10,8 @@
     <string name="slide_mode">Slide Mode</string>
     <string name="slide_window">Slide Window</string>
     <string name="slide_content">Slide Content</string>
+    <string name="edge_slide">Edge Slide:</string>
+    <string name="edge_slide_width">Edge Slide Width: %1$d px</string>
     <string name="slidemenu_attribute">SlideMenu Attribute</string>
     <string name="slidemenu_with_horizontal_scroll_view">SlideMenu With HorizontalScrollView</string>
     <string name="slidemenu_with_view_pager">SlideMenu With ViewPager</string>

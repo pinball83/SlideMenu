@@ -85,7 +85,7 @@ public class SlideMenu extends ViewGroup {
 	private int mContentBoundsLeft;
 	private int mContentBoundsRight;
 
-	private boolean mIsTapContent;
+	private boolean mIsTapInContent;
 	private Rect mContentHitRect;
 
 	@ExportedProperty
@@ -101,10 +101,13 @@ public class SlideMenu extends ViewGroup {
 
 	private int mSlideMode = MODE_SLIDE_CONTENT;
 
+	private boolean mIsEdgeSlideEnable = true;
+	private int mEdgeSlideWidth;
+	private Rect mEdgeSlideDetectRect;
+	private boolean mIsTapInEdgeSlide;
+
 	private int mWidth;
 	private int mHeight;
-
-	private Drawable mDefaultContentBackground;
 
 	private OnSlideStateChangeListener mSlideStateChangeListener;
 	private OnContentTapListener mContentTapListener;
@@ -127,6 +130,7 @@ public class SlideMenu extends ViewGroup {
 		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 		mVelocityTracker = VelocityTracker.obtain();
 		mContentHitRect = new Rect();
+		mEdgeSlideDetectRect = new Rect();
 		STATUS_BAR_HEIGHT = (int) getStatusBarHeight(context);
 		setWillNotDraw(false);
 
@@ -164,11 +168,14 @@ public class SlideMenu extends ViewGroup {
 
 		mSlideDirectionFlag = a.getInt(R.styleable.SlideMenu_slideDirection,
 				FLAG_DIRECTION_LEFT | FLAG_DIRECTION_RIGHT);
+
+		setEdgeSlideEnable(a.getBoolean(R.styleable.SlideMenu_edgeSlide, false));
+		setEdgetSlideWidth(a.getDimensionPixelSize(
+				R.styleable.SlideMenu_edgeSlideWidth, 100));
 		a.recycle();
 
 		setFocusable(true);
 		setFocusableInTouchMode(true);
-		mDefaultContentBackground = getDefaultContentBackground(context);
 	}
 
 	public SlideMenu(Context context, AttributeSet attrs) {
@@ -407,6 +414,45 @@ public class SlideMenu extends ViewGroup {
 	}
 
 	/**
+	 * Toggle the edge slide
+	 * 
+	 * @param enable
+	 */
+	public void setEdgeSlideEnable(boolean enable) {
+		mIsEdgeSlideEnable = enable;
+	}
+
+	/**
+	 * Indicate user can only open SlideMenu from the edge
+	 * 
+	 * @return
+	 */
+	public boolean isEdgeSlideEnable() {
+		return mIsEdgeSlideEnable;
+	}
+
+	/**
+	 * Set edge slide width next left and right side of SlideMenu
+	 * 
+	 * @param width
+	 */
+	public void setEdgetSlideWidth(int width) {
+		if (width < 0) {
+			throw new IllegalArgumentException("Edge slide width must above 0");
+		}
+		mEdgeSlideWidth = width;
+	}
+
+	/**
+	 * Get the edge slide width
+	 * 
+	 * @return
+	 */
+	public float getEdgeSlideWidth() {
+		return mEdgeSlideWidth;
+	}
+
+	/**
 	 * Indicate this SlideMenu is open
 	 * 
 	 * @return true open, otherwise false
@@ -555,13 +601,25 @@ public class SlideMenu extends ViewGroup {
 		invalidate();
 	}
 
-	private boolean isTapContent(float x, float y) {
+	private boolean isTapInContent(float x, float y) {
 		final View content = mContent;
 		if (null != content) {
 			content.getHitRect(mContentHitRect);
 			return mContentHitRect.contains((int) x, (int) y);
 		}
 		return false;
+	}
+
+	private boolean isTapInEdgeSlide(float x, float y) {
+		final Rect rect = mEdgeSlideDetectRect;
+		boolean result = false;
+		getHitRect(rect);
+		rect.right = mEdgeSlideWidth;
+		result |= rect.contains((int) x, (int) y);
+		getHitRect(rect);
+		rect.left = rect.right - mEdgeSlideWidth;
+		result |= rect.contains((int) x, (int) y);
+		return result;
 	}
 
 	@Override
@@ -575,11 +633,18 @@ public class SlideMenu extends ViewGroup {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mPressedX = mLastMotionX = x;
-			mIsTapContent = isTapContent(x, y);
-			return isOpen() && mIsTapContent;
+			mIsTapInContent = isTapInContent(x, y);
+			mIsTapInEdgeSlide = isTapInEdgeSlide(x, y);
+			return isOpen() && mIsTapInContent;
 		case MotionEvent.ACTION_MOVE:
 			float distance = x - mPressedX;
-			if (Math.abs(distance) >= mTouchSlop && mIsTapContent) {
+
+			if (mIsEdgeSlideEnable && !mIsTapInEdgeSlide
+					&& mCurrentState == STATE_CLOSE) {
+				return false;
+			}
+
+			if (Math.abs(distance) >= mTouchSlop && mIsTapInContent) {
 				if (!canScroll(this, (int) distance, (int) x, (int) y)) {
 					setCurrentState(STATE_DRAG);
 					return true;
@@ -595,20 +660,27 @@ public class SlideMenu extends ViewGroup {
 		final float x = event.getX();
 		final float y = event.getY();
 		final int currentState = mCurrentState;
-		final boolean isTapContent = mIsTapContent;
 
 		final int action = event.getAction();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			mPressedX = mLastMotionX = x;
-			mIsTapContent = isTapContent(x, y);
-			if (mIsTapContent) {
+			mIsTapInContent = isTapInContent(x, y);
+			mIsTapInEdgeSlide = isTapInEdgeSlide(x, y);
+
+			if (mIsTapInContent) {
 				mScroller.abortAnimation();
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
 			mVelocityTracker.addMovement(event);
-			if (Math.abs(x - mPressedX) >= mTouchSlop && isTapContent
+
+			if (mIsEdgeSlideEnable && !mIsTapInEdgeSlide
+					&& mCurrentState == STATE_CLOSE) {
+				return false;
+			}
+
+			if (Math.abs(x - mPressedX) >= mTouchSlop && mIsTapInContent
 					&& currentState != STATE_DRAG) {
 				getParent().requestDisallowInterceptTouchEvent(true);
 				setCurrentState(STATE_DRAG);
@@ -617,7 +689,6 @@ public class SlideMenu extends ViewGroup {
 				mLastMotionX = x;
 				return false;
 			}
-
 			drag(mLastMotionX, x);
 			mLastMotionX = x;
 			break;
@@ -627,15 +698,14 @@ public class SlideMenu extends ViewGroup {
 			if (STATE_DRAG == currentState) {
 				mVelocityTracker.computeCurrentVelocity(1000);
 				endDrag(x, mVelocityTracker.getXVelocity());
-			} else if (isTapContent && MotionEvent.ACTION_UP == action) {
+			} else if (mIsTapInContent && MotionEvent.ACTION_UP == action) {
 				performContentTap();
 			}
 			mVelocityTracker.clear();
 			getParent().requestDisallowInterceptTouchEvent(false);
-			mIsTapContent = false;
+			mIsTapInContent = mIsTapInEdgeSlide = false;
 			break;
 		}
-
 		return true;
 	}
 

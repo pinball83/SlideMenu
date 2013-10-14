@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">SlideMenu演示</string>
-    <string name="primary_shadow_width">左边阴影宽度</string>
-    <string name="secondary_shadow_width">右边阴影宽度</string>
+    <string name="primary_shadow_width">左边阴影宽度: %1$d 像素</string>
+    <string name="secondary_shadow_width">右边阴影宽度: %1$d 像素</string>
     <string name="slide_left_enable">向左滑动开</string>
     <string name="slide_left_disable">向左滑动关</string>
     <string name="slide_right_enable">向右滑动开</string>
@@ -11,6 +11,8 @@
     <string name="slide_mode">滑动模式</string>
     <string name="slide_window">滑动整个窗口</string>
     <string name="slide_content">滑动整个布局</string>
+    <string name="edge_slide">边缘滑动触发:</string>
+    <string name="edge_slide_width">边缘滑动触发宽度: %1$d 像素</string>
     <string name="slidemenu_attribute">SlideMenu属性</string>
     <string name="slidemenu_with_horizontal_scroll_view">包含HorizontalScrollView的SlideMenu</string>
     <string name="slidemenu_with_view_pager">包含ViewPager的SlideMenu</string>

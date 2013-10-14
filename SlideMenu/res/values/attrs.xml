@@ -15,6 +15,8 @@
         <attr name="secondaryShadowWidth" format="dimension" />
         <attr name="primaryShadowDrawable" format="reference" />
         <attr name="sencondaryShadowDrawable" format="reference" />
+        <attr name="edgeSlide" format="boolean" />
+        <attr name="edgeSlideWidth" format="dimension" />
         <attr name="slideDirection" format="flags">
             <flag name="left" value="1" />
             <flag name="right" value="2" />

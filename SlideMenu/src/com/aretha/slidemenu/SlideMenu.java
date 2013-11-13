@@ -613,12 +613,17 @@ public class SlideMenu extends ViewGroup {
 	private boolean isTapInEdgeSlide(float x, float y) {
 		final Rect rect = mEdgeSlideDetectRect;
 		boolean result = false;
-		getHitRect(rect);
-		rect.right = mEdgeSlideWidth;
-		result |= rect.contains((int) x, (int) y);
-		getHitRect(rect);
-		rect.left = rect.right - mEdgeSlideWidth;
-		result |= rect.contains((int) x, (int) y);
+		if (null != mPrimaryMenu) {
+			getHitRect(rect);
+			rect.right = mEdgeSlideWidth;
+			result |= rect.contains((int) x, (int) y);
+		}
+
+		if (null != mSecondaryMenu) {
+			getHitRect(rect);
+			rect.left = rect.right - mEdgeSlideWidth;
+			result |= rect.contains((int) x, (int) y);
+		}
 		return result;
 	}
 

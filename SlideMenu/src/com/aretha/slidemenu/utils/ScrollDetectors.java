@@ -102,7 +102,7 @@ public class ScrollDetectors {
 		public boolean canScrollHorizontal(View v, int direction) {
 			ViewPager viewPager = (ViewPager) v;
 			PagerAdapter pagerAdapter = viewPager.getAdapter();
-			if (null == pagerAdapter) {
+			if (null == pagerAdapter || 0 == pagerAdapter.getCount()) {
 				return false;
 			}
 

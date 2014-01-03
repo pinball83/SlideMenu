@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2011-2013 Tang Ke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -154,7 +153,7 @@ public class SlideMenu extends ViewGroup {
 		setPrimaryShadowDrawable(primaryShadowDrawable);
 
 		Drawable secondaryShadowDrawable = a
-				.getDrawable(R.styleable.SlideMenu_primaryShadowDrawable);
+				.getDrawable(R.styleable.SlideMenu_sencondaryShadowDrawable);
 		if (null == secondaryShadowDrawable) {
 			secondaryShadowDrawable = new GradientDrawable(
 					Orientation.LEFT_RIGHT, new int[] {

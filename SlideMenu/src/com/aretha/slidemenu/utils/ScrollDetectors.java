@@ -33,7 +33,7 @@ import android.widget.HorizontalScrollView;
  * 
  */
 public class ScrollDetectors {
-	private static final WeakHashMap<Class<?>, ScrollDetector> IMPLES = new WeakHashMap<Class<?>, ScrollDetector>();
+	private static final WeakHashMap<Class<? extends View>, ScrollDetector> IMPLES = new WeakHashMap<Class<? extends View>, ScrollDetector>();
 	private static ScrollDetectorFactory mFactory;
 
 	/**
@@ -67,7 +67,7 @@ public class ScrollDetectors {
 	}
 
 	private static ScrollDetector getImplements(View v) {
-		Class<?> clazz = v.getClass();
+		Class<? extends View> clazz = v.getClass();
 		ScrollDetector imple = IMPLES.get(clazz);
 
 		if (null != imple) {

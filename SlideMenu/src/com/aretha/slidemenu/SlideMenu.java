@@ -153,7 +153,7 @@ public class SlideMenu extends ViewGroup {
 		setPrimaryShadowDrawable(primaryShadowDrawable);
 
 		Drawable secondaryShadowDrawable = a
-				.getDrawable(R.styleable.SlideMenu_sencondaryShadowDrawable);
+				.getDrawable(R.styleable.SlideMenu_secondaryShadowDrawable);
 		if (null == secondaryShadowDrawable) {
 			secondaryShadowDrawable = new GradientDrawable(
 					Orientation.LEFT_RIGHT, new int[] {

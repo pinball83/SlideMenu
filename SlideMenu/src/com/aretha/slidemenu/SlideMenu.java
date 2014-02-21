@@ -957,9 +957,9 @@ public class SlideMenu extends ViewGroup {
 				break;
 			case LayoutParams.ROLE_SECONDARY_MENU:
 				mContentBoundsLeft = -measureWidth;
-				child.layout(r - paddingRight - measureWidth, statusBarHeight
-						+ paddingTop, r - paddingRight, statusBarHeight
-						+ paddingTop + measureHeight);
+				child.layout(r - l - paddingRight - measureWidth,
+						statusBarHeight + paddingTop, r - l - paddingRight,
+						statusBarHeight + paddingTop + measureHeight);
 				break;
 			default:
 				continue;

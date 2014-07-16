@@ -55,7 +55,7 @@ public class SlideMenuActivity extends Activity{
     slidemenudemo:primaryShadowDrawable="reference"
     slidemenudemo:primaryShadowWidth="dimension"
     slidemenudemo:secondaryShadowWidth="dimension"
-    slidemenudemo:sencondaryShadowDrawable="reference"
+    slidemenudemo:secondaryShadowDrawable="reference"
     slidemenudemo:slideDirection="left|right" >
 
     <View
@@ -79,7 +79,7 @@ public class SlideMenuActivity extends Activity{
 * `primaryShadowWidth` the shadow width above primary menu, left side of content
 * `secondaryShadowWidth` the shadow width above secondary menu, right side of content
 * `primaryShadowDrawable` the shadow drawable above primary menu, left side of content
-* `sencondaryShadowDrawable` the shadow drawable above secondary menu, right side of content
+* `secondaryShadowDrawable` the shadow drawable above secondary menu, right side of content
 * `slideDirection` specified the slide direction of SlideMenu, left, right, left|right
 
 #Author

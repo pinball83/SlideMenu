@@ -73,6 +73,11 @@ public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 		mEdgeSlide.setOnCheckedChangeListener(this);
 		mEdgeSlideWidth.setOnSeekBarChangeListener(this);
 
+		onProgressChanged(mPrimaryShadowWidth,
+				mPrimaryShadowWidth.getProgress(), false);
+		onProgressChanged(mSecondaryShadowWidth,
+				mSecondaryShadowWidth.getProgress(), false);
+		onProgressChanged(mEdgeSlideWidth, mEdgeSlideWidth.getProgress(), false);
 		mInterpolator.setAdapter(ArrayAdapter.createFromResource(this,
 				R.array.interpolator, android.R.layout.simple_list_item_1));
 	}

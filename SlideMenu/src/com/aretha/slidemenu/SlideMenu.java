@@ -190,7 +190,11 @@ public class SlideMenu extends ViewGroup {
 		TypedValue value = new TypedValue();
 		context.getTheme().resolveAttribute(android.R.attr.windowBackground,
 				value, true);
-		return context.getResources().getDrawable(value.resourceId);
+		if (0 < value.resourceId) {
+			return context.getResources().getDrawable(value.resourceId);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -221,9 +225,7 @@ public class SlideMenu extends ViewGroup {
 			return;
 		}
 
-		TypedValue value = new TypedValue();
-		getContext().getTheme().resolveAttribute(
-				android.R.attr.windowBackground, value, true);
+		Drawable background = getDefaultContentBackground(getContext());
 
 		switch (mSlideMode) {
 		case MODE_SLIDE_WINDOW: {
@@ -245,7 +247,7 @@ public class SlideMenu extends ViewGroup {
 
 			// add this view to root view
 			decorView.addView(this);
-			setBackgroundResource(value.resourceId);
+			setBackgroundDrawable(background);
 		}
 			break;
 		case MODE_SLIDE_CONTENT: {
@@ -263,7 +265,7 @@ public class SlideMenu extends ViewGroup {
 			// remove decor child from this view
 			removeViewFromParent(decorChild);
 			// restore the decor child to decor view
-			decorChild.setBackgroundResource(value.resourceId);
+			decorChild.setBackgroundDrawable(background);
 			decorView.addView(decorChild);
 			// add this view to content wrapper
 			contentContainer.addView(this);
@@ -391,8 +393,8 @@ public class SlideMenu extends ViewGroup {
 	}
 
 	/**
-	 * Set the slide mode:<br/> {@link #MODE_SLIDE_CONTENT}
-	 * {@link #MODE_SLIDE_WINDOW}
+	 * Set the slide mode:<br/>
+	 * {@link #MODE_SLIDE_CONTENT} {@link #MODE_SLIDE_WINDOW}
 	 * 
 	 * @param slideMode
 	 */

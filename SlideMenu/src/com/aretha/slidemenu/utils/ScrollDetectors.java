@@ -20,6 +20,7 @@ import java.util.WeakHashMap;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.HorizontalScrollView;
@@ -80,6 +81,8 @@ public class ScrollDetectors {
 			imple = new HorizontalScrollViewScrollDetector();
 		} else if (v instanceof WebView) {
 			imple = new WebViewScrollDetector();
+		} else if (v instanceof SwipeRefreshLayout) {
+			imple = new SwipeRefreshLayoutScrollDetector();
 		} else if (null != mFactory) {
 			imple = mFactory.newScrollDetector(v);
 		} else {
@@ -195,6 +198,20 @@ public class ScrollDetectors {
 		public boolean canScrollVertical(View v, int direction) {
 			// TODO
 			return false;
+		}
+	}
+
+	private static class SwipeRefreshLayoutScrollDetector implements
+			ScrollDetector {
+
+		@Override
+		public boolean canScrollHorizontal(View v, int direction) {
+			return false;
+		}
+
+		@Override
+		public boolean canScrollVertical(View v, int direction) {
+			return true;
 		}
 
 	}

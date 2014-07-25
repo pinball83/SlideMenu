@@ -163,7 +163,7 @@ public class SlideMenu extends ViewGroup {
 		setSecondaryShadowDrawable(secondaryShadowDrawable);
 
 		int interpolatorResId = a.getResourceId(
-				R.styleable.SlideMenu_slideInterpolator, -1);
+				R.styleable.SlideMenu_interpolator, -1);
 		setInterpolator(-1 == interpolatorResId ? DEFAULT_INTERPOLATOR
 				: AnimationUtils.loadInterpolator(context, interpolatorResId));
 

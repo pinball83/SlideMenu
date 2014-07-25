@@ -79,6 +79,7 @@ public class SlideMenu extends ViewGroup {
 	private int mTouchSlop;
 
 	private float mPressedX;
+	private float mPressedY;
 	private float mLastMotionX;
 	private volatile int mCurrentContentOffset;
 
@@ -162,7 +163,7 @@ public class SlideMenu extends ViewGroup {
 		setSecondaryShadowDrawable(secondaryShadowDrawable);
 
 		int interpolatorResId = a.getResourceId(
-				R.styleable.SlideMenu_interpolator, -1);
+				R.styleable.SlideMenu_slideInterpolator, -1);
 		setInterpolator(-1 == interpolatorResId ? DEFAULT_INTERPOLATOR
 				: AnimationUtils.loadInterpolator(context, interpolatorResId));
 
@@ -190,11 +191,7 @@ public class SlideMenu extends ViewGroup {
 		TypedValue value = new TypedValue();
 		context.getTheme().resolveAttribute(android.R.attr.windowBackground,
 				value, true);
-		if (0 < value.resourceId) {
-			return context.getResources().getDrawable(value.resourceId);
-		} else {
-			return null;
-		}
+		return context.getResources().getDrawable(value.resourceId);
 	}
 
 	/**
@@ -225,7 +222,9 @@ public class SlideMenu extends ViewGroup {
 			return;
 		}
 
-		Drawable background = getDefaultContentBackground(getContext());
+		TypedValue value = new TypedValue();
+		getContext().getTheme().resolveAttribute(
+				android.R.attr.windowBackground, value, true);
 
 		switch (mSlideMode) {
 		case MODE_SLIDE_WINDOW: {
@@ -247,7 +246,7 @@ public class SlideMenu extends ViewGroup {
 
 			// add this view to root view
 			decorView.addView(this);
-			setBackgroundDrawable(background);
+			setBackgroundResource(value.resourceId);
 		}
 			break;
 		case MODE_SLIDE_CONTENT: {
@@ -265,7 +264,7 @@ public class SlideMenu extends ViewGroup {
 			// remove decor child from this view
 			removeViewFromParent(decorChild);
 			// restore the decor child to decor view
-			decorChild.setBackgroundDrawable(background);
+			decorChild.setBackgroundResource(value.resourceId);
 			decorView.addView(decorChild);
 			// add this view to content wrapper
 			contentContainer.addView(this);
@@ -630,6 +629,14 @@ public class SlideMenu extends ViewGroup {
 	}
 
 	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		if (MotionEvent.ACTION_UP == ev.getAction()) {
+			requestDisallowInterceptTouchEvent(false);
+		}
+		return super.dispatchTouchEvent(ev);
+	}
+
+	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		final float x = ev.getX();
 		final float y = ev.getY();
@@ -640,19 +647,30 @@ public class SlideMenu extends ViewGroup {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mPressedX = mLastMotionX = x;
+			mPressedY = y;
 			mIsTapInContent = isTapInContent(x, y);
 			mIsTapInEdgeSlide = isTapInEdgeSlide(x, y);
 			return isOpen() && mIsTapInContent;
 		case MotionEvent.ACTION_MOVE:
-			float distance = x - mPressedX;
+			float dx = x - mPressedX;
+			float dy = y - mPressedY;
 
 			if (mIsEdgeSlideEnable && !mIsTapInEdgeSlide
 					&& mCurrentState == STATE_CLOSE) {
 				return false;
 			}
 
-			if (Math.abs(distance) >= mTouchSlop && mIsTapInContent) {
-				if (!canScroll(this, (int) distance, (int) x, (int) y)) {
+			// Detect the vertical scroll
+			if (Math.abs(dy) >= mTouchSlop && mIsTapInContent
+					&& canScrollVertically(this, (int) dy, (int) x, (int) y)) {
+				// if the child can response the vertical scroll, we will not to
+				// steal the MotionEvent any more
+				requestDisallowInterceptTouchEvent(true);
+				return false;
+			}
+
+			if (Math.abs(dx) >= mTouchSlop && mIsTapInContent) {
+				if (!canScrollHorizontally(this, (int) dx, (int) x, (int) y)) {
 					setCurrentState(STATE_DRAG);
 					return true;
 				}
@@ -672,6 +690,7 @@ public class SlideMenu extends ViewGroup {
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			mPressedX = mLastMotionX = x;
+			mPressedY = y;
 			mIsTapInContent = isTapInContent(x, y);
 			mIsTapInEdgeSlide = isTapInEdgeSlide(x, y);
 
@@ -972,7 +991,7 @@ public class SlideMenu extends ViewGroup {
 	/**
 	 * Detect whether the views inside content are slidable
 	 */
-	protected final boolean canScroll(View v, int dx, int x, int y) {
+	protected final boolean canScrollHorizontally(View v, int dx, int x, int y) {
 		if (v instanceof ViewGroup) {
 			final ViewGroup viewGroup = (ViewGroup) v;
 			final int scrollX = v.getScrollX();
@@ -988,7 +1007,7 @@ public class SlideMenu extends ViewGroup {
 						&& y + scrollY >= top
 						&& y + scrollY < child.getBottom()
 						&& View.VISIBLE == child.getVisibility()
-						&& (ScrollDetectors.canScrollHorizontal(child, dx) || canScroll(
+						&& (ScrollDetectors.canScrollHorizontal(child, dx) || canScrollHorizontally(
 								child, dx, x + scrollX - left, y + scrollY
 										- top))) {
 					return true;
@@ -997,6 +1016,33 @@ public class SlideMenu extends ViewGroup {
 		}
 
 		return ViewCompat.canScrollHorizontally(v, -dx);
+	}
+
+	protected final boolean canScrollVertically(View v, int dy, int x, int y) {
+		if (v instanceof ViewGroup) {
+			final ViewGroup viewGroup = (ViewGroup) v;
+			final int scrollX = v.getScrollX();
+			final int scrollY = v.getScrollY();
+
+			final int childCount = viewGroup.getChildCount();
+			for (int index = 0; index < childCount; index++) {
+				View child = viewGroup.getChildAt(index);
+				final int left = child.getLeft();
+				final int top = child.getTop();
+				if (x + scrollX >= left
+						&& x + scrollX < child.getRight()
+						&& y + scrollY >= top
+						&& y + scrollY < child.getBottom()
+						&& View.VISIBLE == child.getVisibility()
+						&& (ScrollDetectors.canScrollVertical(child, dy) || canScrollVertically(
+								child, dy, x + scrollX - left, y + scrollY
+										- top))) {
+					return true;
+				}
+			}
+		}
+
+		return ViewCompat.canScrollVertically(v, -dy);
 	}
 
 	public float getPrimaryShadowWidth() {

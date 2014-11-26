@@ -12,8 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.aretha.slidemenu;
+package me.tangke.slidemenu;
 
+import me.tangke.slidemenu.utils.ScrollDetectors;
+import me.tangke.slidemenu.utils.ScrollDetectors.ScrollDetector;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -38,9 +40,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
-
-import com.aretha.slidemenu.utils.ScrollDetectors;
-import com.aretha.slidemenu.utils.ScrollDetectors.ScrollDetector;
 
 /**
  * Swipe left/right to show the hidden menu behind the content view, Use
@@ -908,26 +907,32 @@ public class SlideMenu extends ViewGroup {
 		final int count = getChildCount();
 		final int slideMode = mSlideMode;
 		final int statusBarHeight = STATUS_BAR_HEIGHT;
+		final int measureHeight = MeasureSpec.getSize(heightMeasureSpec);
+		final int measureHeightMode = MeasureSpec.getMode(heightMeasureSpec);
+
+		boolean needRemeasure = false;
 
 		int maxChildWidth = 0, maxChildHeight = 0;
 		for (int index = 0; index < count; index++) {
 			View child = getChildAt(index);
 			LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
+			needRemeasure |= (MeasureSpec.EXACTLY != measureHeightMode && LayoutParams.MATCH_PARENT == layoutParams.height);
 			switch (layoutParams.role) {
 			case LayoutParams.ROLE_CONTENT:
-				measureChild(child, widthMeasureSpec, heightMeasureSpec);
+				measureChildWithMargins(child, widthMeasureSpec, 0,
+						heightMeasureSpec, 0);
 				break;
 			case LayoutParams.ROLE_PRIMARY_MENU:
 			case LayoutParams.ROLE_SECONDARY_MENU:
-				measureChild(
+				measureChildWithMargins(
 						child,
 						widthMeasureSpec,
+						0,
 						slideMode == MODE_SLIDE_WINDOW ? MeasureSpec
-								.makeMeasureSpec(
-										MeasureSpec.getSize(heightMeasureSpec)
-												- statusBarHeight,
+								.makeMeasureSpec(measureHeight
+										- statusBarHeight,
 										MeasureSpec.getMode(heightMeasureSpec))
-								: heightMeasureSpec);
+								: heightMeasureSpec, 0);
 				break;
 			}
 
@@ -940,6 +945,21 @@ public class SlideMenu extends ViewGroup {
 
 		setMeasuredDimension(resolveSize(maxChildWidth, widthMeasureSpec),
 				resolveSize(maxChildHeight, heightMeasureSpec));
+
+		// we know the exactly size of SlideMenu, so we should use the new size
+		// to remeasure the child
+		if (needRemeasure) {
+			for (int index = 0; index < count; index++) {
+				View child = getChildAt(index);
+				if (View.GONE != child.getVisibility()
+						&& LayoutParams.MATCH_PARENT == child.getLayoutParams().height) {
+					measureChildWithMargins(child, widthMeasureSpec, 0,
+							MeasureSpec.makeMeasureSpec(getMeasuredHeight(),
+									MeasureSpec.EXACTLY), 0);
+				}
+			}
+		}
+
 	}
 
 	private boolean isAttacthedInContentView() {

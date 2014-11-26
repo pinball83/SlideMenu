@@ -1,4 +1,4 @@
-package com.aretha.slidemenudemo;
+package me.tangke.slidemenudemo;
 
 import java.util.List;
 

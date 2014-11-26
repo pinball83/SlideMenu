@@ -1,10 +1,10 @@
-package com.aretha.slidemenudemo.activity;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenudemo.BaseSlideMenuActivity;
+import me.tangke.slidemenudemo.R;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.aretha.slidemenudemo.BaseSlideMenuActivity;
-import com.aretha.slidemenudemo.R;
 
 public class SlideMenuWithWebView extends BaseSlideMenuActivity {
 	private WebViewClient mViewClient = new WebViewClient() {

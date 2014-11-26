@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.aretha.slidemenu.utils;
+package me.tangke.slidemenu.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,10 +1,10 @@
-package com.aretha.slidemenudemo.activity;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenudemo.BaseSlideMenuActivity;
+import me.tangke.slidemenudemo.R;
+import me.tangke.slidemenudemo.widget.DragableFragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.aretha.slidemenudemo.BaseSlideMenuActivity;
-import com.aretha.slidemenudemo.R;
-import com.aretha.slidemenudemo.widget.DragableFragmentPagerAdapter;
 
 public class SlideMenuWithViewPager extends BaseSlideMenuActivity {
 

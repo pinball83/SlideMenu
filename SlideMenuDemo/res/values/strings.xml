@@ -32,5 +32,7 @@ Android is open source and Google releases the code under the Apache License.[12
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="interpolator">Interpolator:</string>
+    <string name="hide_view">Hide View</string>
+    <string name="slidemenu_in_listview">SlideMenu In ListView</string>
 
 </resources>

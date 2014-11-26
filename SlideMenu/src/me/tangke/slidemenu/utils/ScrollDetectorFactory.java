@@ -12,11 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.aretha.slidemenu.utils;
+package me.tangke.slidemenu.utils;
 
+import me.tangke.slidemenu.utils.ScrollDetectors.ScrollDetector;
 import android.view.View;
 
-import com.aretha.slidemenu.utils.ScrollDetectors.ScrollDetector;
 
 public interface ScrollDetectorFactory {
 	/**

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aretha.slidemenudemo"
-    android:versionCode="8"
+    package="me.tangke.slidemenudemo"
+    android:versionCode="9"
     android:versionName="1.1.0" >
 
     <uses-sdk
@@ -25,55 +25,62 @@
             android:name=".activity.SlideMenuAttribute"
             android:label="@string/slidemenu_attribute" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SlideMenuCallback"
             android:label="@string/slidemenu_callback" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SlideMenuWithHorizontalScrollView"
             android:label="@string/slidemenu_with_horizontal_scroll_view" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SlideMenuWithViewPager"
             android:label="@string/slidemenu_with_view_pager" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SlideMenuWithWebView"
             android:label="@string/slidemenu_with_web_view" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SlideMenuWithHorizontalScrollViewAndViewPager"
             android:label="@string/slidemenu_with_horizontal_scroll_view_and_view_pager" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitygroup.PrimaryActivity" >
+        <activity android:name=".activity.PrimaryActivity" >
         </activity>
-        <activity android:name=".activitygroup.SecondaryActivity" >
-        </activity>
-        <activity android:name=".activitygroup.ContentActivity" >
+        <activity android:name=".activity.SecondaryActivity" >
         </activity>
         <activity
-            android:name=".activitygroup.SlideMenuWithActivityGroup"
+            android:name=".activity.SlideMenuWithActivityGroup"
             android:label="@string/slidemenu_with_activity_group" >
             <intent-filter>
-                <action android:name="com.aretha.demobundle.DEMO" />
+                <action android:name="me.tangke.DEMO" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.ContentActivity" >
+        </activity>
+        <activity
+            android:name=".activity.SlideMenuInListView"
+            android:label="@string/slidemenu_in_listview" >
+            <intent-filter>
+                <action android:name="me.tangke.DEMO" />
             </intent-filter>
         </activity>
     </application>

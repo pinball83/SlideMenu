@@ -1,14 +1,13 @@
-package com.aretha.slidemenudemo.activitygroup;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenu.SlideMenu;
+import me.tangke.slidemenu.SlideMenu.LayoutParams;
+import me.tangke.slidemenudemo.R;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import com.aretha.slidemenu.SlideMenu;
-import com.aretha.slidemenu.SlideMenu.LayoutParams;
-import com.aretha.slidemenudemo.R;
 
 public class SlideMenuWithActivityGroup extends ActivityGroup {
 	private SlideMenu mSlideMenu;

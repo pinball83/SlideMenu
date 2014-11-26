@@ -33,5 +33,7 @@ Google通过官方网上商店平台Google Play，提供应用程序和游戏供
     <string name="open">打开</string>
     <string name="close">关闭</string>
     <string name="interpolator">动画插值:</string>
+    <string name="hide_view">隐藏的控件</string>
+    <string name="slidemenu_in_listview">包含SlideMenu的ListView</string>
 
 </resources>

@@ -1,12 +1,11 @@
-package com.aretha.slidemenudemo.activity;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenu.SlideMenu;
+import me.tangke.slidemenu.SlideMenu.OnSlideStateChangeListener;
+import me.tangke.slidemenudemo.BaseSlideMenuActivity;
+import me.tangke.slidemenudemo.R;
 import android.os.Bundle;
 import android.widget.TextView;
-
-import com.aretha.slidemenu.SlideMenu;
-import com.aretha.slidemenu.SlideMenu.OnSlideStateChangeListener;
-import com.aretha.slidemenudemo.BaseSlideMenuActivity;
-import com.aretha.slidemenudemo.R;
 
 public class SlideMenuCallback extends BaseSlideMenuActivity implements
 		OnSlideStateChangeListener {

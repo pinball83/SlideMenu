@@ -1,9 +1,9 @@
-package com.aretha.slidemenudemo.activitygroup;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenudemo.R;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.aretha.slidemenudemo.R;
 
 public class SecondaryActivity extends FragmentActivity {
 	@Override

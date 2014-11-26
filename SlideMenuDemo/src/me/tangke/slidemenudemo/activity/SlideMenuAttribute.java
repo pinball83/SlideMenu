@@ -1,5 +1,8 @@
-package com.aretha.slidemenudemo.activity;
+package me.tangke.slidemenudemo.activity;
 
+import me.tangke.slidemenu.SlideMenu;
+import me.tangke.slidemenudemo.BaseSlideMenuActivity;
+import me.tangke.slidemenudemo.R;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -22,10 +25,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import com.aretha.slidemenu.SlideMenu;
-import com.aretha.slidemenudemo.BaseSlideMenuActivity;
-import com.aretha.slidemenudemo.R;
 
 public class SlideMenuAttribute extends BaseSlideMenuActivity implements
 		OnSeekBarChangeListener, OnCheckedChangeListener,

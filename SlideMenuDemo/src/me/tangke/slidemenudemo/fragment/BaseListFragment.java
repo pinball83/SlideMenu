@@ -1,11 +1,11 @@
-package com.aretha.slidemenudemo.fragment;
+package me.tangke.slidemenudemo.fragment;
 
+import me.tangke.slidemenudemo.R;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 
-import com.aretha.slidemenudemo.R;
 
 public class BaseListFragment extends ListFragment {
 	@Override

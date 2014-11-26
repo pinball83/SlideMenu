@@ -1,9 +1,8 @@
-package com.aretha.slidemenudemo;
+package me.tangke.slidemenudemo;
 
+import me.tangke.slidemenu.SlideMenu;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
-import com.aretha.slidemenu.SlideMenu;
 
 public class BaseSlideMenuActivity extends FragmentActivity {
 	private SlideMenu mSlideMenu;

@@ -1,5 +1,6 @@
-package com.aretha.slidemenudemo.widget;
+package me.tangke.slidemenudemo.widget;
 
+import me.tangke.slidemenudemo.fragment.BaseListFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,7 @@ public class DragableFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		return Fragment.instantiate(mContext,
-				"com.aretha.slidemenudemo.fragment.BaseListFragment");
+				BaseListFragment.class.getName());
 	}
 
 	@Override

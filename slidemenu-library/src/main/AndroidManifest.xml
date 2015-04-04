@@ -2,8 +2,4 @@
     package="me.tangke.slidemenu"
     >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="21" />
-
 </manifest>
